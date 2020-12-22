@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block base_content %}
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- debut Sidebar -->
+            {% include 'partials/sidebar.html' %}
+            <!-- fin Sidebar -->
+
+            <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+                <!-- debut Navbar -->
+                <div class="main-navbar sticky-top bg-white">
+                    {% include 'partials/navbar.html' %}
+                </div>
+                <!-- / .fin-navbar -->
+                {% block content %}
+
+                {% endblock %}
+                {#            {% include 'partials/footer.html' %}#}
+            </main>
+        </div>
+    </div>
+
+    {% include 'partials/delete_confirmation_modal.html' %}
+
+{% endblock %}
+

@@ -1,0 +1,52 @@
+{% extends 'dashboard.html' %}
+{% load static  %}
+{% block content %}
+    <div class="row mt-3 m-1">
+        <div class="col-md-12">
+            <div class="float-right mb-3">
+                <button data-toggle="modal" data-target="#add-district-modal" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Ajouter Un district</button>
+            </div>
+        </div>
+        {% if form2.erros %}
+            <div class="alert alert-danger">hello</div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped list-site-table">
+                        <thead>
+                        <tr>
+                            <th>Site</th>
+                            <th>District</th>
+                            <th>Nombre ASC(s)</th>
+                            <th class="noExport">options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for site in sites %}
+                            <tr>
+                                <td>{{ site.libelle|capfirst }}</td>
+                                <td>{{ site.district }}</td>
+                                <td>{{ site.site_count }}</td>
+                                <td>
+                                    <div class="text-center ">
+                                        <a href="{% url 'district:site_edit' site.id %}" data-id="{{ site.id }}" class="btn btn-outline-secondary edit-site" data-toggle="modal" data-target="#edit-district-modal"><i class="fa fa-edit"></i></a>&nbsp;
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include  'district/partials/add-district-modal.html' %}
+    {% include  'district/partials/edit-district-modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'district/js/site.js' %}"></script>
+        <script src="{% static 'equipement/js/equipement.js' %}"></script>
+{% endblock %}

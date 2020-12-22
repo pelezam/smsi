@@ -1,0 +1,51 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block content %}
+    <div class="row mt-3 m-1">
+        <div class="col-md-12">
+            <div class="float-right w-auto">
+                 <button data-target="#approvisionement-add" data-toggle="modal" class="btn btn-outline-primary">Approvisionner</button>
+                <button data-toggle="modal" data-target="#equipement-add" class="btn btn-outline-success"><i class="fa fa-plus"></i>&nbsp;Ajouter</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped equipement-table">
+                <thead>
+                <tr class="userstable_filter"></tr>
+                <tr>
+                    <th>Libelle</th>
+                    <th>Quantité Disponible</th>
+                    <th>Période de renouvellement</th>
+                    <th class="noExport">Options</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for eqp in eqps %}
+                    <tr>
+                        <td>{{ eqp.libelle|capfirst }}</td>
+                        <td>{{ eqp.quantity }}</td>
+                        <td>{{ eqp.echeance }} {{ eqp.periode }}{% if eqp.periode != "mois" %}{{ eqp.echeance|pluralize }}{% endif %}</td>
+                        <td>
+                            <div class="text-center ">
+                                <a href="{% url 'equipement:approvisionement_list' eqp.id %}" class="btn btn-outline-primary"><i class="fa fa-eye"></i></a>&nbsp;
+                                <a href="{% url 'equipement:edit' eqp.id %}" data-id="{{ eqp.id }}" class="btn btn-outline-success eqp-edit" data-target="#equipement-edit" data-toggle="modal">
+                                    <i class="fa fa-edit"></i>
+                                </a>&nbsp;
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include 'equipement/partials/equipement_add.html' %}
+    {% include 'equipement/partials/equipement-modal-edit.html' %}
+    {% include 'equipement/partials/approvisionement-add.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'equipement/js/equipement.js' %}"></script>
+{% endblock %}

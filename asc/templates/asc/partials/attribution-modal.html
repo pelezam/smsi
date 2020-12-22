@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+<div class="modal fade" tabindex="-1" role="dialog" id="attribution-modal">
+    <div class="modal-dialog" role="document">
+        <form action="{% url 'asc:asc_attributon' asc.identifiant %}" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attribution de matériel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="asc" value="{{ asc.id }}">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 mb-0">
+                            {{ attr_form.equipement|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-12 mb-0">
+                            {{ attr_form.quantity|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enrégistrer</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

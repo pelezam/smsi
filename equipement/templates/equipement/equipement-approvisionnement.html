@@ -1,0 +1,37 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="row mt-3 m-1">
+        <div class="col-md-12">
+            <div class="float-left w-auto">
+                <a href="{% url 'equipement:list' %}" class="btn btn-outline-primary mb-3"><i class="fa fa-arrow-left"></i> Retour</a>
+            </div>
+            <div class="float-right w-auto">
+                <span>Hisotrique approvisionnement: </span><h3>{{ equipement.libelle|capfirst }}</h3>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped equipement-table">
+                <thead>
+                <tr class="userstable_filter"></tr>
+                <tr>
+                    <th>Quantité disponible <span class="small">(avant approvisionnement)</span></th>
+                    <th>Quantité ajouté</th>
+                    <th>Total après ajout</th>
+                    <th>Date d'approvisionnement</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for app in approvis %}
+                    <tr>
+                        <td>{{ app.quantity_stock_debut }}</td>
+                        <td>{{ app.quantity_add }}</td>
+                        <td>{{ app.quantity_stock_fin }}</td>
+                        <td>{{ app.created_at|date }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

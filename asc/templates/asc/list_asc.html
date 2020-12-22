@@ -1,0 +1,118 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="row mt-3 m-1">
+        <div class="col-md-12">
+            <div class="float-right mb-3">
+                <button data-toggle="modal" data-target="#add-asc-modal" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Ajouter</button>
+                {#                <a href="{% url 'asc:asc_create' %}" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Ajouter</a>#}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped asc-table">
+                        <thead>
+                        <tr class="userstable_filter"></tr>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom & prenom(s)</th>
+                            <th>Sexe</th>
+                            <th>District</th>
+                            <th>site</th>
+                            <th>contact</th>
+                            <th class="noExport">options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for asc in ascs %}
+                            <tr>
+                                <td>{{ asc.identifiant }}</td>
+                                <td>{{ asc.nom }} {{ asc.prenom }}</td>
+                                <td>{{ asc.sexe }}</td>
+                                <td>{{ asc.site.district }}</td>
+                                <td>{{ asc.site }}</td>
+                                <td>{{ asc.contact }}</td>
+                                <td>
+                                    <div class="text-center ">
+                                        <a href="{{ asc.get_absolute_url }}" class="btn btn-outline-primary"><i class="fa fa-eye"></i></a>&nbsp;
+                                        <a href="{% url 'asc:asc_edit' asc.identifiant %}" data-id="{{ asc.identifiant }}" class="btn btn-outline-secondary edit-asc" data-toggle="modal" data-target="#edit-asc-modal">
+                                            <i class="fa fa-edit"></i>
+                                        </a>&nbsp;
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include  'asc/partials/add-asc-modal.html' %}
+    {% include  'asc/partials/edit-asc-modal.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function(){
+            $('.edit-asc').click(function(){
+                let form_url = $(this).attr('href')
+                let form = $("#edit-asc-modal form")
+                form.attr('action', form_url)
+                let id = $(this).data('id')
+                $.get(`/asc/${id}/detail/`, function(response){
+
+                    form.find('#id_identifiant').val(response.identifiant)
+                    form.find('#id_ancien_id').val(response.ancien_id)
+                    form.find('#id_nom').val(response.nom)
+                    form.find('#id_prenom').val(response.prenom)
+                    form.find('#id_contact').val(response.contact)
+
+                    if(response.photo !== ""){
+                        form.find('#photo').attr('src',response.photo)
+                    }else{
+                        form.find('#photo').attr('src', "/media/user.png")
+                    }
+
+                    form.find("#id_site option").each(function(){
+
+                        let l1 = response['site'].toLowerCase()
+
+                        let l2 = $(this).val().toLowerCase()
+
+                        if(l1.localeCompare(l2) === 0){
+                            $(this).attr('selected', 'selected')
+                        }
+                    })
+
+                    form.find("#id_sexe option").each(function(){
+
+                        let l1 = response['sexe'].toLowerCase()
+                        let l2 = $(this).val().toLowerCase()
+
+                        if(l1.localeCompare(l2) === 0){
+                            $(this).attr('selected', 'selected')
+                        }
+                    })
+
+                    form.find("#id_type option").each(function(){
+
+                        let l1 = response['type'].toLowerCase()
+                        let l2 = $(this).val().toLowerCase()
+
+                        if(l1.localeCompare(l2) === 0){
+                            $(this).attr('selected', 'selected')
+                        }
+                    })
+
+
+
+
+
+                })
+            })
+        })
+    </script>
+{% endblock %}

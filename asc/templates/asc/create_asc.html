@@ -1,0 +1,42 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row mt-3 m-1">
+        <div class="col-md-8 offset-2">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'asc:asc_create' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                               {{ form.identifiant|as_crispy_field }}
+                            </div>
+                             <div class="form-group col-md-6 mb-0">
+                                {{ form.photo|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ form.nom|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ form.prenom|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ form.site|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ form.sexe|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                 {{ form.type|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                 {{ form.contact|as_crispy_field }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success float-right">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
